@@ -13,6 +13,8 @@ const OutputLeaderBoard = ({ leaderboard }) => {
                 <th>#</th>
                 <th>Name</th>
                 <th>Score</th>
+                <th>Team</th>
+                <th>Food Selection</th>
               </tr>
             </thead>
             <tbody>

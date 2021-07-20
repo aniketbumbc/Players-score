@@ -1,11 +1,25 @@
 import React, { useState } from 'react';
 import { Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import {
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
 
 const InputForm = (props) => {
   const { updateLeaderboardArray } = props;
-  const initialInputState = { player: '', score: '' };
+  const initialInputState = {
+    player: '',
+    score: '',
+    team: '',
+    food: 'Select Food',
+  };
   const [eachEntry, setEachEntry] = useState(initialInputState);
-  const { player, score } = eachEntry;
+  const [dropdownOpen, setOpen] = useState(false);
+  const { player, score, team, food } = eachEntry;
+
+  const toggle = () => setOpen(!dropdownOpen);
 
   const handleInputChange = (e) => {
     setEachEntry({
@@ -16,11 +30,12 @@ const InputForm = (props) => {
 
   const handleFinalSubmit = (e) => {
     e.preventDefault();
-    updateLeaderboardArray(eachEntry);
-    setEachEntry({
-      player: '',
-      score: '',
-    });
+    if (food === 'Select Food') {
+      alert('Please Select Food');
+    } else {
+      updateLeaderboardArray(eachEntry);
+      setEachEntry(initialInputState);
+    }
   };
 
   return (
@@ -50,6 +65,46 @@ const InputForm = (props) => {
                 onChange={handleInputChange}
                 value={score}
               ></Input>
+            </FormGroup>
+            <FormGroup>
+              <Label for='team'>Team</Label>
+              <Input
+                name='team'
+                placeholder='UT'
+                onChange={handleInputChange}
+                value={team}
+              ></Input>
+            </FormGroup>
+            <FormGroup>
+              <Label for='food'>Food Type</Label>
+              <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+                <DropdownToggle caret color='info'>
+                  {food}
+                </DropdownToggle>
+                <DropdownMenu name='food'>
+                  <DropdownItem
+                    onClick={handleInputChange}
+                    value='Juice'
+                    name='food'
+                  >
+                    Juice
+                  </DropdownItem>
+                  <DropdownItem
+                    onClick={handleInputChange}
+                    value='Veg'
+                    name='food'
+                  >
+                    Veg
+                  </DropdownItem>
+                  <DropdownItem
+                    onClick={handleInputChange}
+                    value='Non-Veg'
+                    name='food'
+                  >
+                    Non-veg
+                  </DropdownItem>
+                </DropdownMenu>
+              </ButtonDropdown>
             </FormGroup>
             <Button type='submit'>Submit</Button>
           </Form>
